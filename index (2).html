@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Online Eye Exam</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #e9f0f5;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background: #005a87;
+      color: #fff;
+      padding: 40px 20px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+
+    header p {
+      margin: 5px 0 0;
+    }
+
+    #main {
+      padding: 30px 20px;
+    }
+
+    .section {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #fff;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    button {
+      padding: 12px 25px;
+      margin: 10px;
+      background: #005a87;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #007ab3;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 18px;
+      width: 200px;
+      margin: 10px;
+    }
+
+    #letter {
+      font-size: 70px;
+      margin: 20px 0;
+    }
+
+    #color-img {
+      max-width: 250px;
+      margin: 20px;
+    }
+
+    #result, #pdfResult {
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    #contactOptometrist {
+      text-align: left;
+    }
+
+    #optometrist-pic {
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+    }
+
+    #contactOptometrist p {
+      margin: 8px 0;
+    }
+
+    #contactOptometrist a {
+      color: #005a87;
+      text-decoration: none;
+    }
+
+    #contactOptometrist a:hover {
+      text-decoration: underline;
+    }
+
+    a {
+      color: #005a87;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Online Eye Exam</h1>
+    <p>Visual Acuity | Color Vision | Contrast | Astigmatism</p>
+  </header>
+
+  <div id="main">
+    <div id="home" class="section">
+      <h2>Start Your Eye Test</h2>
+      <p>Select a test below:</p>
+      <button onclick="startTest('snellen')">Visual Acuity</button>
+      <button onclick="startTest('color')">Color Blindness</button>
+      <button onclick="startTest('contrast')">Contrast Sensitivity</button>
+      <button onclick="startTest('astigmatism')">Astigmatism</button>
+      <p><a href="https://www.allaboutvision.com/" target="_blank">More Info</a></p>
+    </div>
+
+    <!-- Visual Acuity -->
+    <div id="snellen" class="section hidden">
+      <h2>Visual Acuity Test</h2>
+      <p>Please match the case exactly. This test is case-sensitive.</p>
+      <div id="letter">A</div>
+      <input id="snellen-input" placeholder="Type the letter EXACTLY">
+      <button onclick="submitSnellen()">Submit</button>
+      <p id="snellen-status"></p>
+      <p><a href="https://www.eyeweb.com/what-is-visual-acuity-chart-types-tests-vision-scale-explained" target="_blank">Know More</a></p>
+    </div>
+
+    <!-- Color Blindness -->
+    <div id="color" class="section hidden">
+      <h2>Color Blindness Test</h2>
+      <img id="color-img" src="" alt="Color Plate">
+      <br>
+      <input id="color-input" placeholder="Type number">
+      <button onclick="submitColor()">Next</button>
+      <p id="color-status"></p>
+      <p><a href="https://eyemantra.in/eye-diseases-hindi/color-blindness-hindi/" target="_blank">Know More</a></p>
+    </div>
+
+    <!-- Contrast -->
+    <div id="contrast" class="section hidden">
+      <h2>Contrast Sensitivity</h2>
+      <div id="contrast-word">TEST</div>
+      <input id="contrast-input" placeholder="Type word">
+      <button onclick="submitContrast()">Submit</button>
+      <p id="contrast-status"></p>
+      <p><a href="https://www.centreforsight.net/blog/contrast-sensitivity-testing-treatment-guide" target="_blank">Know More</a></p>
+    </div>
+
+    <!-- Astigmatism -->
+    <div id="astigmatism" class="section hidden">
+      <h2>Astigmatism Test</h2>
+      <p>Look at the pattern below. Do all lines look equally dark & sharp?</p>
+      <img src="https://th.bing.com/th/id/R.b4335f44663691f5907c5447f1bc3635?rik=uRuZggIlfXX1Pg&riu=http%3a%2f%2fcdn.shopify.com%2fs%2ffiles%2f1%2f0270%2f5276%2f9314%2ffiles%2fHow_Do_I_Know_If_I_Have_Astigmatism_-_Simple_Test_for_Astigmatism_9cd38731-b3f7-4b97-ad3d-4307bf4d1e76_grande.jpg%3fv%3d1573811330&ehk=sRrBR%2fYQzH1WfzXMu4FVP62UvIVSB6ocJvgPrW3kBKw%3d&risl=&pid=ImgRaw&r=0" 
+           alt="Astigmatism Test Chart" width="300">
+      <br>
+      <button onclick="completeAstigmatism('Yes')">Yes</button>
+      <button onclick="completeAstigmatism('No')">No</button>
+      <p><a href="https://www.pristyncare.com/hi/blog/causes-symptoms-and-treatment-of-astigmatism-in-hindi-pc0578/" target="_blank">Know More</a></p>
+    </div>
+
+    <!-- Results -->
+    <div id="result" class="section hidden">
+      <h2>Test Summary & Suggestions</h2>
+      <div id="pdfResult"></div>
+      <button onclick="downloadPDF()">Download Result</button>
+      <button onclick="showContact()">Contact an Optometrist</button>
+      <button onclick="goHome()">Back to Home</button>
+    </div>
+
+    <!-- Optometrist Contact -->
+     <div id="contactOptometrist" class="section hidden">
+      <h2>Contact an Optometrist</h2>
+      <img id="optometrist-pic" src="https://iili.io/FMqruTu.jpg" alt="Optometrist Photo">
+      <p><strong>Hii, I am Richa Rai</strong></p>
+      <p>Experienced Optometrist with 2+ years helping patients see clearly and stay healthy.</p>
+      <p>📱 Mobile: <a href="tel:+918102639427">+91 8102639427</a></p>
+      <p>📧 Gmail: <a href="mailto:priya.optometrist@gmail.com">richarai09@gmail.com</a></p>
+      <p>📸 Instagram: <a href="https://www.instagram.com/richarai_09?igsh=MWI5aWcyZTQ4MmU4aw==" target="_blank">richarai_09</a></p>
+      <button onclick="goHome()">Back to Home</button>
+    </div>
+
+  </div>
+
+  <!-- html2pdf.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+
+  <script>
+    let snellenCorrect = 0, snellenTotal = 0;
+    let colorCorrect = 0, colorTotal = 0;
+    let contrastCorrect = 0, contrastTotal = 0;
+    let astigmatismResult = '';
+
+    let currentLetter = '';
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
+    const plates = [
+
+      { img: "https://t3.ftcdn.net/jpg/05/09/05/24/240_F_509052479_GaddUUNmLr4hFpkQwNPgCOsIdM4kE1Fc.jpg", answer: "?" },
+      { img: "https://t4.ftcdn.net/jpg/01/73/21/29/240_F_173212910_3uZ9VIEG38mYRCo9vYY81BZKsBKRTVaM.jpg", answer: "2" },
+      { img: "https://t3.ftcdn.net/jpg/01/73/21/28/240_F_173212894_yUjoTMXh64JsxKXBq50NAOqa3Q4NHoY6.jpg", answer: "1" },
+      { img: "https://t3.ftcdn.net/jpg/01/73/21/28/240_F_173212891_ki4Q6zQj6tGugklJyIUkKxhjHEVpXH37.jpg", answer: "9" },
+      { img: "https://t3.ftcdn.net/jpg/01/73/21/30/240_F_173213001_jfM9CGVckK3h4h3d7BHW4j5OOriyT9V3.jpg", answer: "7" }
+    ];
+    let colorIndex = 0;
+
+    const words = ["FOCUS", "VISION", "CLEAR"];
+    let contrastIndex = 0;
+
+    function hideAll() {
+      ['home','snellen','color','contrast','astigmatism','result','contactOptometrist'].forEach(id => {
+        document.getElementById(id).classList.add('hidden');
+      });
+    }
+
+    function startTest(type) {
+      hideAll();
+      if (type === 'snellen') {
+        snellenCorrect = 0; snellenTotal = 0;
+        nextSnellen();
+        document.getElementById('snellen').classList.remove('hidden');
+      }
+      if (type === 'color') {
+        colorCorrect = 0; colorTotal = 0; colorIndex = 0;
+        nextColor();
+        document.getElementById('color').classList.remove('hidden');
+      }
+      if (type === 'contrast') {
+        contrastCorrect = 0; contrastTotal = 0; contrastIndex = 0;
+        nextContrast();
+        document.getElementById('contrast').classList.remove('hidden');
+      }
+      if (type === 'astigmatism') {
+        astigmatismResult = '';
+        document.getElementById('astigmatism').classList.remove('hidden');
+      }
+    }
+
+    function nextSnellen() {
+      currentLetter = letters[Math.floor(Math.random()*letters.length)];
+      const size = Math.floor(Math.random() * 40) + 30;
+      const letterBlock = document.getElementById('letter');
+      letterBlock.innerText = currentLetter;
+      letterBlock.style.fontSize = size + 'px';
+      if (Math.random() > 0.5) {
+        letterBlock.style.color = '#000'; letterBlock.style.background = '#fff';
+      } else {
+        letterBlock.style.color = '#333'; letterBlock.style.background = '#ddd';
+      }
+      document.getElementById('snellen-input').value = "";
+      document.getElementById('snellen-status').innerText = "";
+    }
+
+    function submitSnellen() {
+      const user = document.getElementById('snellen-input').value;
+      snellenTotal++;
+      if (user === currentLetter) snellenCorrect++;
+      if (snellenTotal >= 7) showResult(); else nextSnellen();
+    }
+
+    function nextColor() {
+      document.getElementById('color-img').src = plates[colorIndex].img;
+      document.getElementById('color-input').value = "";
+      document.getElementById('color-status').innerText = "";
+    }
+
+    function submitColor() {
+      const user = document.getElementById('color-input').value.trim();
+      colorTotal++;
+      if (user === plates[colorIndex].answer) colorCorrect++;
+      colorIndex++;
+      if (colorIndex >= plates.length) showResult(); else nextColor();
+    }
+
+    function nextContrast() {
+      const word = words[contrastIndex];
+      const block = document.getElementById('contrast-word');
+      block.innerText = word;
+      if (Math.random() > 0.5) {
+        block.style.color = '#000'; block.style.background = '#eee';
+      } else {
+        block.style.color = '#fff'; block.style.background = '#333';
+      }
+      document.getElementById('contrast-input').value = "";
+      document.getElementById('contrast-status').innerText = "";
+    }
+
+    function submitContrast() {
+      const user = document.getElementById('contrast-input').value.trim().toUpperCase();
+      contrastTotal++;
+      if (user === words[contrastIndex]) contrastCorrect++;
+      contrastIndex++;
+      if (contrastIndex >= words.length) showResult(); else nextContrast();
+    }
+
+    function completeAstigmatism(ans) {
+      astigmatismResult = ans;
+      showResult();
+    }
+
+    function showResult() {
+      hideAll();
+      let report = `<h3>Results & Suggestions</h3>`;
+      if (snellenTotal) {
+        report += `<p>Visual Acuity: ${snellenCorrect}/${snellenTotal}</p>`;
+        if (snellenCorrect <= 3) {
+          report += `<p>🔍 Possible reduced distance vision. Consider visiting an optometrist for prescription lenses.</p>`;
+        } else {
+          report += `<p>✅ Good visual acuity detected.</p>`;
+        }
+      }
+      if (colorTotal) {
+        report += `<p>Color Vision: ${colorCorrect}/${plates.length}</p>`;
+        if (colorCorrect <= 2) {
+          report += `<p>🔴 Possible red-green color blindness. Specialized color-corrective glasses may help.</p>`;
+        } else if (colorCorrect <= 4) {
+          report += `<p>🟡 Mild color vision issue detected. Consider consulting an optometrist.</p>`;
+        } else {
+          report += `<p>✅ Normal color vision.</p>`;
+        }
+      }
+      if (contrastTotal) {
+        report += `<p>Contrast Sensitivity: ${contrastCorrect}/${words.length}</p>`;
+        if (contrastCorrect <= 1) {
+          report += `<p>⚠️ Low contrast sensitivity. Consider anti-reflective or high-contrast lenses.</p>`;
+        } else {
+          report += `<p>✅ Normal contrast sensitivity.</p>`;
+        }
+      }
+      if (astigmatismResult) {
+        report += `<p>Astigmatism: ${astigmatismResult === 'Yes' ? 'No obvious sign.' : 'Possible astigmatism detected.'}</p>`;
+        if (astigmatismResult === 'No') {
+          report += `<p>🔵 Astigmatism may require cylinder correction lenses.</p>`;
+        }
+      }
+      document.getElementById('pdfResult').innerHTML = report;
+      document.getElementById('result').classList.remove('hidden');
+    }
+
+    function downloadPDF() {
+      const element = document.getElementById('pdfResult');
+      html2pdf().from(element).save('eye_test_result.pdf');
+    }
+
+    function goHome() {
+      hideAll();
+      document.getElementById('home').classList.remove('hidden');
+    }
+
+    function showContact() {
+      hideAll();
+      document.getElementById('contactOptometrist').classList.remove('hidden');
+    }
+  </script>
+
+</body>
+</html>
